@@ -8,17 +8,17 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index GET (/products)
-- Show GET (/products/:productId)
-- Create [token required] POST (/products)
-- [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
+- Index GET (/api/)
+- Show GET (/api//:productId)
+- Create [token required] POST (/api/products)
+- [OPTIONAL] Top 5 most popular products GET (/api/top-5-popular-products)
+- [OPTIONAL] Products by category (args: product category) GET (/api/products?category=value)
 
 #### Users
 
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required] GET (/api/users)
+- Show [token required] GET (/api/users/:userId)
+- Create N[token required] POST (api/users)
 
 #### Orders
 
@@ -27,23 +27,23 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## Data Shapes
 
-#### Product
+#### Product -> products
 
-- id
-- name
-- price
-- [OPTIONAL] category
+- id SERIAL PRIMARY KEY
+- name VARCHAR(200)
+- price INTEGER
+- [OPTIONAL] category VARCHAR(100)
 
-#### User
+#### User -> users
 
-- id
-- firstName
-- lastName
-- password
+- id SERIAL PRIMARY KEY
+- firstName VARCHAR(100)
+- lastName VARCHAR(100)
+- password INTEGER
 
 #### Orders
 
-- id
+- id SERIAL PRIMARY KEY
 - id of each product in the order
 - quantity of each product in the order
 - user_id
