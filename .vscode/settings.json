@@ -1,0 +1,24 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3000,
+      "askForPassword": true,
+      "driver": "PostgreSQL",
+      "name": "udacity",
+      "database": "storefront",
+      "username": "backend_developer"
+    },
+    {
+      "previewLimit": 50,
+      "server": "127.0.0.1",
+      "port": 5432,
+      "askForPassword": true,
+      "driver": "PostgreSQL",
+      "name": "postgres",
+      "database": "storefront",
+      "username": "backend_developer"
+    }
+  ]
+}

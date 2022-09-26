@@ -18,7 +18,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 - Index [token required] GET (/api/users)
 - Show [token required] GET (/api/users/:userId)
-- Create N[token required] POST (api/users)
+- Create N[token required] POST (api/users/signup)
 
 #### Orders
 

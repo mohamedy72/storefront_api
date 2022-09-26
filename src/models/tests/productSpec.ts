@@ -1,3 +1,4 @@
+import { client } from "../../database";
 import {
   getAllProducts,
   addNewProduct,
@@ -51,4 +52,12 @@ describe("ALL CRUD functionality are working as expected", () => {
     await getAllProducts();
     expect(getAllProducts).toEqual([]);
   });
+});
+
+afterAll(async () => {
+  const connection = await client.connect();
+  const sql =
+    "DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\n";
+  await connection.query(sql);
+  connection.release();
 });
