@@ -17,7 +17,9 @@ export const getAllProducts = async (): Promise<Product[]> => {
     throw new Error(`Cannot get all products, ${error}`);
   }
 };
-export const addNewProduct = async (product: Product): Promise<Product> => {
+export const addNewProduct = async (
+  product: Product
+): Promise<Product | unknown> => {
   try {
     const sql =
       "INSERT INTO products(name, price, category) VALUES($1, $2, $3) RETURNING *";

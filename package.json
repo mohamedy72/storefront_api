@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"nodemon ./dist/server.ts\"",
     "build": "tsc",
-    "test": "ENV=test db-migrate --env test up && yarn build && npx jasmine && db-migrate db:drop test"
+    "test": " yarn build && db-migrate --env test up && MODE=test jasmine-ts && db-migrate --env test down"
   },
   "author": "Udacity",
   "license": "ISC",
