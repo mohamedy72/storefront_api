@@ -1,6 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { User, userSignin, userSignup } from "../models/user";
+import { getAllUsers, User, userSignin, userSignup } from "../models/user";
+
+// export const indexUsers = async (req: Request, res: Response) => {
+//   try {
+//     const results = await getAllUsers();
+//     res.status(200).json({
+//       data: results,
+//     });
+//   } catch (error) {
+//     res.status(400).json({
+//       data: error,
+//     });
+//   }
+// };
 
 export const signup = async (
   req: Request,
@@ -36,18 +49,16 @@ export const signin = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const user: SignedUser = {
-      username: req.body.username,
-      password: req.body.password,
-    };
-    const signedUser = await userSignin(user.username, user.password);
-    res.json({
+  const user: SignedUser = {
+    username: req.body.username,
+    password: req.body.password,
+  };
+  const signedUser = await userSignin(user.username, user.password, next);
+  if (!signedUser) {
+    res.status(400).json({ data: "Invalid username or password" });
+  } else {
+    res.status(200).json({
       data: signedUser,
-    });
-  } catch (error) {
-    res.json({
-      data: error,
     });
   }
 };
