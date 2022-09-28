@@ -11,6 +11,73 @@ export interface User {
   password: string;
 }
 
+/**
+ * ============= CRUD model =============
+ */
+
+// Index all
+export const getAllUsers = async () => {
+  try {
+    const connection = await client.connect();
+    const sql = "SELECT * FROM users";
+    const response = await connection.query(sql);
+    connection.release();
+    return response.rows;
+  } catch (error) {
+    throw new Error(`Cannot retrieve the list of users, ${error}`);
+  }
+};
+
+// Show a user
+export const getSingleUser = async (id: number) => {
+  try {
+    const connection = await client.connect();
+    const sql = "SELECT * FROM users WHERE id=$1";
+    const response = await connection.query(sql, [id]);
+    connection.release();
+    return response.rows[0];
+  } catch (error) {
+    throw new Error(`Cannot retrieve the user with Id: ${id}, ${error}`);
+  }
+};
+
+// Delete a user
+export const deleteSingleUser = async (id: number) => {
+  try {
+    const connection = await client.connect();
+    const sql = "DELETE FROM users WHERE id=$1";
+    const response = await connection.query(sql, [id]);
+    connection.release();
+    return response.rows[0];
+  } catch (error) {
+    throw new Error(`Cannot delete the user with Id: ${id}, ${error}`);
+  }
+};
+
+// Update a user
+export const updateSingleUser = async (id: number, user: User) => {
+  try {
+    const connection = await client.connect();
+    const sql =
+      "UPDATE users SET first_name=$2, last_name=$3, username=$4, password=$5 WHERE id=$1";
+    const response = await connection.query(sql, [
+      id,
+      user.firstName,
+      user.lastName,
+      user.username,
+      user.password,
+    ]);
+    connection.release();
+    return response.rows[0];
+  } catch (error) {
+    throw new Error(`Cannot update the user with Id: ${id}, ${error}`);
+  }
+};
+
+/**
+ * ============= AUTHORIZATION =============
+ */
+
 // Signup
 export const userSignup = async (
   user: User,
@@ -55,18 +122,3 @@ export const userSignin = async (
   }
   return signedUser as User;
 };
-
-// Index all
-// export const getAllUsers = async () => {
-//   try {
-//     const connection = await client.connect();
-//     const sql = "SELECT * FROM users";
-//     const response = await connection.query(sql);
-//     connection.release();
-//     return response.rows;
-//   } catch (error) {
-//     throw new Error(`Cannot retrieve the list of users, ${error}`);
-//   }
-// };
-
-// Show a user

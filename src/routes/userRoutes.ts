@@ -1,10 +1,25 @@
 import express from "express";
-import { indexUsers, signin, signup } from "../handlers/userController";
+import {
+  editSingleUser,
+  indexSingleUser,
+  indexUsers,
+  removeSingleUser,
+  signin,
+  signup,
+} from "../handlers/userController";
+
+import { verifyToken } from "../middlewares/verifyToken";
 
 const usersRouter = express.Router();
 
-// usersRouter.route("/").get(indexUsers);
 usersRouter.route("/signup").post(signup);
 usersRouter.route("/signin").get(signin);
+
+usersRouter.route("/").get(verifyToken, indexUsers);
+usersRouter
+  .route("/:userId")
+  .get(verifyToken, indexSingleUser)
+  .post(verifyToken, removeSingleUser)
+  .put(verifyToken, editSingleUser);
 
 export default usersRouter;
