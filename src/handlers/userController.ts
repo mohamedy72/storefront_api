@@ -4,7 +4,7 @@ import {
   deleteSingleUser,
   getAllUsers,
   getSingleUser,
-  updateSingleUser,
+  overrideSingleUser,
   User,
   userSignin,
   userSignup,
@@ -54,12 +54,12 @@ export const removeSingleUser = async (req: Request, res: Response) => {
 export const editSingleUser = async (req: Request, res: Response) => {
   const userId = +req.params.userId;
   const user: User = {
-    firstName: req.body.first_name,
-    lastName: req.body.last_name,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
     username: req.body.username,
     password: req.body.password,
   };
-  const result = await updateSingleUser(userId, user);
+  const result = await overrideSingleUser(userId, user);
   if (!result) {
     res.status(400).json(`Couldn't find a user with this id ${userId}`);
   } else {
@@ -78,8 +78,8 @@ export const signup = async (
 ) => {
   try {
     const user: User = {
-      firstName: req.body.first_name,
-      lastName: req.body.last_name,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
     };

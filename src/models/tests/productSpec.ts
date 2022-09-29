@@ -49,15 +49,15 @@ describe("ALL CRUD functionality are working as expected", () => {
 
   it("should delete a product", async () => {
     await deleteSingleProduct(1);
-    await getAllProducts();
-    expect(getAllProducts).toEqual([]);
+    const result = await getAllProducts();
+    expect(result).toEqual([]);
   });
-});
 
-afterAll(async () => {
-  const connection = await client.connect();
-  const sql =
-    "DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\n";
-  await connection.query(sql);
-  connection.release();
+  afterAll(async () => {
+    const connection = await client.connect();
+    const sql =
+      "DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\n";
+    await connection.query(sql);
+    connection.release();
+  });
 });

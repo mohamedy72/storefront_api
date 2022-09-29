@@ -22,7 +22,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Orders
 
-- Current Order by user (args: user id)[token required]
+- Current Order by user (Active Orders by a user) (args: user id)[token required]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes

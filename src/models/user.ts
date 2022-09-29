@@ -5,8 +5,9 @@ import bcrypt from "bcrypt";
 const pepper = process.env.BCRYPT_SECRET;
 const saltRounds = process.env.SALT_ROUNDS;
 export interface User {
-  firstName: string;
-  lastName: string;
+  id?: number;
+  first_name: string;
+  last_name: string;
   username: string;
   password: string;
 }
@@ -55,15 +56,15 @@ export const deleteSingleUser = async (id: number) => {
 };
 
 // Update a user
-export const updateSingleUser = async (id: number, user: User) => {
+export const overrideSingleUser = async (id: number, user: User) => {
   try {
     const connection = await client.connect();
     const sql =
       "UPDATE users SET first_name=$2, last_name=$3, username=$4, password=$5 WHERE id=$1";
     const response = await connection.query(sql, [
       id,
-      user.firstName,
-      user.lastName,
+      user.first_name,
+      user.last_name,
       user.username,
       user.password,
     ]);
@@ -81,26 +82,27 @@ export const updateSingleUser = async (id: number, user: User) => {
 // Signup
 export const userSignup = async (
   user: User,
-  next: NextFunction
+  next?: NextFunction | undefined
 ): Promise<User | void> => {
   try {
     const connection = await client.connect();
     const sql =
       "INSERT INTO users(first_name, last_name, username, password) VALUES ($1, $2, $3, $4) RETURNING *";
+    // Type guard (For testing purposes)
     const hashed = bcrypt.hashSync(
       user.password + pepper,
       parseInt(saltRounds as string)
     );
     const response = await connection.query(sql, [
-      user.firstName,
-      user.lastName,
+      user.first_name,
+      user.last_name,
       user.username,
-      hashed,
+      process.env.MODE === "test" ? user.password : hashed,
     ]);
     connection.release();
     return response.rows[0];
   } catch (error) {
-    return next(error);
+    throw new Error(`Can't sign you up, ${error}`);
   }
 };
 
