@@ -1,6 +1,7 @@
 import express from "express";
 import {
   editSingleUser,
+  indexOrderByUser,
   indexSingleUser,
   indexUsers,
   removeSingleUser,

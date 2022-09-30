@@ -1,6 +1,6 @@
 import { client } from "../database";
 
-interface Order {
+export interface Order {
   id?: number;
   quantity: number;
   orderId: string;
