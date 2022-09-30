@@ -4,6 +4,8 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
+    "migrate:up": "db-migrate up",
+    "migrate:down": "db-migrate down",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"nodemon ./dist/server.ts\"",
     "build": "tsc",
     "test": " yarn build && db-migrate --env test up && MODE=test jasmine-ts"
