@@ -38,7 +38,7 @@ export const createNewOrder = async (req: Request, res: Response) => {
     const status: string = req.body.status;
     const user_id: string = req.body.userId;
 
-    const result = await addNewOrder(status, user_id);
+    const result = await addNewOrder(status, +user_id);
     res.status(200).json({
       data: result,
     });

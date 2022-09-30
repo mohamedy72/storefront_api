@@ -47,7 +47,15 @@ describe("All CRUD operations on /users should work as expected", () => {
 
   it("should list all users", async () => {
     const result = await getAllUsers();
-    console.log(result);
+    expect(result).toEqual([
+      {
+        id: 1,
+        first_name: "mohamed",
+        last_name: "yasser",
+        username: "myasser_74",
+        password: "as123",
+      },
+    ]);
   });
 
   afterAll(async () => {

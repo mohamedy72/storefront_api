@@ -32,13 +32,25 @@ export const getSingleOrder = async (id: number): Promise<Order> => {
 
 export const addNewOrder = async (
   status: string,
-  user_id: string
+  user_id: number
 ): Promise<Order | unknown> => {
   try {
     const connection = await client.connect();
     const sql =
       "insert into orders(status, user_id) values ($1, $2) returning *";
     const result = await connection.query(sql, [status, user_id]);
+    connection.release();
+    return result.rows[0];
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deleteSingleOrder = async (id: number) => {
+  try {
+    const connection = await client.connect();
+    const sql = "DELETE FROM orders WHERE id=$1";
+    const result = await connection.query(sql, [id]);
     connection.release();
     return result.rows[0];
   } catch (error) {
