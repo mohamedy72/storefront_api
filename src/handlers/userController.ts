@@ -9,7 +9,7 @@ import {
   userSignin,
   userSignup,
 } from "../models/user";
-import { activeOrderByUser } from "../services/activeOrderByUser";
+import { activeOrderByUser } from "../services/OrderByUser";
 
 /**
  * ============= CRUD on @users =============
@@ -65,6 +65,20 @@ export const editSingleUser = async (req: Request, res: Response) => {
     res.status(400).json(`Couldn't find a user with this id ${userId}`);
   } else {
     res.status(200).json(`User ${userId} has been deleted from the DB`);
+  }
+};
+
+export const indexOrderByUser = async (req: Request, res: Response) => {
+  try {
+    const id = +req.params.userId;
+    const result = await activeOrderByUser(id);
+    res.status(200).json({
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      data: error,
+    });
   }
 };
 

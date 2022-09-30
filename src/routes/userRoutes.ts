@@ -22,5 +22,6 @@ usersRouter
   .get(verifyToken, indexSingleUser)
   .post(verifyToken, removeSingleUser)
   .put(verifyToken, editSingleUser);
+usersRouter.route("/:userId/orders").get(indexOrderByUser);
 
 export default usersRouter;
