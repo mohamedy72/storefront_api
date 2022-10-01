@@ -8,43 +8,43 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index GET (/api/)
-- Show GET (/api//:productId)
-- Create [token required] POST (/api/products)
-- [OPTIONAL] Top 5 most popular products GET (/api/top-5-popular-products)
-- [OPTIONAL] Products by category (args: product category) GET (/api/products?category=value)
+- Index [GET] (/api/)
+- Show [GET] (/api//:productId)
+- Create [token required] [POST] (/api/products)
+- [OPTIONAL] Top 5 most popular products [GET] (/api/top-5-popular-products)
+- [OPTIONAL] Products by category (args: product category) [GET] (/api/products?category=value)
 
 #### Users
 
-- Index [token required] GET (/api/users)
-- Show [token required] GET (/api/users/:userId)
-- Create user POST (api/users)
+- Index [token required] [GET] (/api/users)
+- Show [token required] [GET] (/api/users/:userId)
+- Create user [POST] (api/users)
 
 #### Orders
 
-- Current Order by user (Active Orders by a user) (args: user id)[token required]
+- Current Order by user (Active Orders by a user) (args: user id)[token required] [GET] [/users/:userId/orders]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
 
 ## Data Shapes
 
 #### Product -> products
 
-- id SERIAL PRIMARY KEY
-- name VARCHAR(200)
-- price INTEGER
+- id SERIAL PRIMARY KEY [PK]
+- name [VARCHAR(200)]
+- price [INTEGER]
 - [OPTIONAL] category VARCHAR(100)
 
 #### User -> users
 
-- id SERIAL PRIMARY KEY
-- firstName VARCHAR(100)
-- lastName VARCHAR(100)
-- password INTEGER
+- id SERIAL PRIMARY KEY [PK]
+- firstName [VARCHAR(100)]
+- lastName [VARCHAR(100)]
+- password [INTEGER]
 
 #### Orders
 
-- id SERIAL PRIMARY KEY
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+- id SERIAL PRIMARY KEY [PK]
+- id of each product in the order [FK] [References products(id)]
+- quantity of each product in the order [INTEGER]
+- user_id [FK] [References users(id)]
+- status of order (active or complete) [VARCHAR(50)]

@@ -1,54 +1,96 @@
-# Storefront Backend Project
+# Storefront API
 
-## Getting Started
+Storefront API is created for a fictional e-commerce organization, its used to store information about the products they sell, store users that use their website and manage different orders.
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+---
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+## Table of contents
 
-## Steps to Completion
+- [Project Requirements](#requirements)
+- [Setup](#setup)
+- [Available Scripts](#scripts)
+- [Connect to database](#connect)
+- [RESTFUL Routes](#routes)
+- [Database Schema](#schema)
 
-### 1. Plan to Meet Requirements
+---
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+## Requirements
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+- `yarn`
+- `node > 12.0.0`
+- Server is running on PORT `3000`
+- Database is running on PORT `5432` || you can run this query from `psql` to obtain the port in your environment `SELECT * FROM pg_settings WHERE name='port';`
+- When endpoint is marked as `Auth required` that refers to a requirement of JWT token to perform the action
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+---
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+## Setup
 
-### 2.  DB Creation and Migrations
+1. Clone this repo
+2. Run `yarn install`
+3. This will install all required packages
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
+---
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+## Scripts
 
-### 3. Models
+Scripts can be run using `yarn <script-name>`
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+|     Script     | Function                                                                                                                                                                     |
+| :------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    `watch`     | This script runs `typescript` compiler on `watch` mode then runs `nodemon` on our entry point `server.ts` file, any subsequent saves restart the whole process automatically |
+|    `build`     | A script to compile our `typescript` into `pure javascript` code                                                                                                             |
+|     `test`     | A script to run tests                                                                                                                                                        |
+|  `migrate:up`  | Initiate the migrations of the database tables                                                                                                                               |
+| `migrate:down` | Reverse the migrations of the database tables                                                                                                                                |
 
-### 4. Express Handlers
+---
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+## Connect
 
-### 5. JWTs
+To be able to connect to the database, please refer to the submission notes for ENV variables to be able to fill `<POSTGRES-XXX>`
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+1- Create a `.env` file in the root dir then copy-paste the variables from submission notes.
 
-### 6. QA and `README.md`
+2- `CTRL+SHIFT+T` To open a new terminal window then run `psql postgres`.
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+3- Create new user using `CREATE ROLE <POSTGRES_USER> WITH SUPERUSER PASSWORD '<POSTGRES_PASSWORD>'`
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+4- Create a new database using the following query `CREATE DATABASE <name-assigned-to-POSTGRES_DB-in-env-file>;`
+
+5- Next, in the root dir of the project you can find a `database.json` file which contains 2 databases one for `production` and another for `testing`
+
+6- Run `yarn migration:up` script to create required tables.
+
+7- Our database is ready to accept our CRUD operations.
+
+---
+
+## Routes
+
+We have 3 main tables that need routes, all our endpoint are pre-fixed with `/api/endpoint`
+
+### 1- Products
+
+| Endpoint | Route                  | Method | Function                | Auth required      |
+| -------- | ---------------------- | ------ | ----------------------- | ------------------ |
+| Index    | `/products`            | `GET`  | List all products       | :x:                |
+| Show     | `/products/:productId` | `GET`  | List a specific product | :x:                |
+| Create   | `/products`            | `POST` | Create a new product    | :heavy_check_mark: |
+
+### 2- Users
+
+| Endpoint | Route            | Method | Function             | Auth required      |
+| -------- | ---------------- | ------ | -------------------- | ------------------ |
+| Index    | `/users`         | `GET`  | List all products    | :heavy_check_mark: |
+| Show     | `/users/:userId` | `GET`  | List a specific user | :heavy_check_mark: |
+| Create   | `/users`         | `POST` | Create a new product | :x:                |
+
+### 3- Orders
+
+| Endpoint    | Route             | Method | Function                                        | Auth required      |
+| ----------- | ----------------- | ------ | ----------------------------------------------- | ------------------ |
+| OrderByUser | `/:userId/orders` | `GET`  | Get `active` order/s related to a specific user | :heavy_check_mark: |
+
+---
