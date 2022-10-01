@@ -8,7 +8,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index [GET] (/api/)
+- Index [GET] (/api/products)
 - Show [GET] (/api//:productId)
 - Create [token required] [POST] (/api/products)
 - [OPTIONAL] Top 5 most popular products [GET] (/api/top-5-popular-products)
