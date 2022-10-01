@@ -1,5 +1,7 @@
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    status VARCHAR(50),
-    user_id integer References users(id)
+    product_id integer References products(id),
+    quantity integer,
+    user_id integer References users(id),
+    order_status VARCHAR(50)
 );

@@ -35,10 +35,13 @@ export const indexSingleOrder = async (req: Request, res: Response) => {
 
 export const createNewOrder = async (req: Request, res: Response) => {
   try {
-    const status: string = req.body.status;
-    const user_id: string = req.body.userId;
-
-    const result = await addNewOrder(status, +user_id);
+    const newOrder = {
+      product_id: req.body.product_id,
+      quantity: req.body.quantity,
+      user_id: req.body.user_id,
+      order_status: req.body.order_status,
+    };
+    const result = await addNewOrder(newOrder);
     res.status(200).json({
       data: result,
     });

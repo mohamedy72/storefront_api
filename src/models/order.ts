@@ -2,9 +2,10 @@ import { client } from "../database";
 
 export interface Order {
   id?: number;
+  product_id: number;
   quantity: number;
-  orderId: string;
-  productId: string;
+  user_id: number;
+  order_status: "active" | "completed";
 }
 
 export const getAllOrders = async (): Promise<Order[]> => {
@@ -30,15 +31,18 @@ export const getSingleOrder = async (id: number): Promise<Order> => {
   }
 };
 
-export const addNewOrder = async (
-  status: string,
-  user_id: number
-): Promise<Order | unknown> => {
+export const addNewOrder = async (order: Order): Promise<Order | unknown> => {
   try {
     const connection = await client.connect();
     const sql =
-      "insert into orders(status, user_id) values ($1, $2) returning *";
-    const result = await connection.query(sql, [status, user_id]);
+      "insert into orders(product_id, quantity, user_id, order_status ) values ($1, $2, $3, $4) returning *";
+    const result = await connection.query(sql, [
+      order.product_id,
+      order.quantity,
+      order.user_id,
+      order.order_status,
+    ]);
+    console.log(result);
     connection.release();
     return result.rows[0];
   } catch (error) {
