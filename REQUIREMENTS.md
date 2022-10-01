@@ -8,43 +8,80 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index [GET] (/api/products)
-- Show [GET] (/api//:productId)
-- Create [token required] [POST] (/api/products)
+| Endpoint | Route                  | Method | Function                | Auth required      |
+| -------- | ---------------------- | ------ | ----------------------- | ------------------ |
+| Index    | `/products`            | `GET`  | List all products       | :x:                |
+| Show     | `/products/:productId` | `GET`  | List a specific product | :x:                |
+| Create   | `/products`            | `POST` | Create a new product    | :heavy_check_mark: |
+
+##### Not implemented yet
+
 - [OPTIONAL] Top 5 most popular products [GET] (/api/top-5-popular-products)
 - [OPTIONAL] Products by category (args: product category) [GET] (/api/products?category=value)
 
 #### Users
 
-- Index [token required] [GET] (/api/users)
-- Show [token required] [GET] (/api/users/:userId)
-- Create user [POST] (api/users)
+| Endpoint | Route            | Method | Function             | Auth required      |
+| -------- | ---------------- | ------ | -------------------- | ------------------ |
+| Index    | `/users`         | `GET`  | List all products    | :heavy_check_mark: |
+| Show     | `/users/:userId` | `GET`  | List a specific user | :heavy_check_mark: |
+| Create   | `/users`         | `POST` | Create a new product | :x:                |
 
 #### Orders
 
-- Current Order by user (Active Orders by a user) (args: user id)[token required] [GET] [/users/:userId/orders]
+| Endpoint    | Route             | Method | Function                                        | Auth required      |
+| ----------- | ----------------- | ------ | ----------------------------------------------- | ------------------ |
+| OrderByUser | `/:userId/orders` | `GET`  | Get `active` order/s related to a specific user | :heavy_check_mark: |
+
+##### Not implemented yet
+
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
+
+---
 
 ## Data Shapes
 
-#### Product -> products
+### Product
 
-- id SERIAL PRIMARY KEY [PK]
-- name [VARCHAR(200)]
-- price [INTEGER]
-- [OPTIONAL] category VARCHAR(100)
+```sql
 
-#### User -> users
+products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150),
+    price integer,
+    category VARCHAR(100)
+);
 
-- id SERIAL PRIMARY KEY [PK]
-- firstName [VARCHAR(100)]
-- lastName [VARCHAR(100)]
-- password [INTEGER]
+```
 
-#### Orders
+---
 
-- id SERIAL PRIMARY KEY [PK]
-- id of each product in the order [FK] [References products(id)]
-- quantity of each product in the order [INTEGER]
-- user_id [FK] [References users(id)]
-- status of order (active or complete) [VARCHAR(50)]
+### User
+
+```sql
+
+ users (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    username VARCHAR(150) NOT NULL,
+    password VARCHAR NOT NULL UNIQUE
+ )
+
+```
+
+---
+
+### Order
+
+```sql
+
+ orders(
+    id SERIAL PRIMARY KEY,
+    product_id integer References products(id),
+    quantity integer,
+    user_id integer References users(id),
+    order_status VARCHAR(50)
+ )
+
+```

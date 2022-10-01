@@ -10,8 +10,6 @@ Storefront API is created for a fictional e-commerce organization, its used to s
 - [Setup](#setup)
 - [Available Scripts](#scripts)
 - [Connect to database](#connect)
-- [RESTFUL Routes](#routes)
-- [Database Schema](#schema)
 
 ---
 
@@ -64,33 +62,3 @@ To be able to connect to the database, please refer to the submission notes for 
 6- Run `yarn migration:up` script to create required tables.
 
 7- Our database is ready to accept our CRUD operations.
-
----
-
-## Routes
-
-We have 3 main tables that need routes, all our endpoint are pre-fixed with `/api/endpoint`
-
-### 1- Products
-
-| Endpoint | Route                  | Method | Function                | Auth required      |
-| -------- | ---------------------- | ------ | ----------------------- | ------------------ |
-| Index    | `/products`            | `GET`  | List all products       | :x:                |
-| Show     | `/products/:productId` | `GET`  | List a specific product | :x:                |
-| Create   | `/products`            | `POST` | Create a new product    | :heavy_check_mark: |
-
-### 2- Users
-
-| Endpoint | Route            | Method | Function             | Auth required      |
-| -------- | ---------------- | ------ | -------------------- | ------------------ |
-| Index    | `/users`         | `GET`  | List all products    | :heavy_check_mark: |
-| Show     | `/users/:userId` | `GET`  | List a specific user | :heavy_check_mark: |
-| Create   | `/users`         | `POST` | Create a new product | :x:                |
-
-### 3- Orders
-
-| Endpoint    | Route             | Method | Function                                        | Auth required      |
-| ----------- | ----------------- | ------ | ----------------------------------------------- | ------------------ |
-| OrderByUser | `/:userId/orders` | `GET`  | Get `active` order/s related to a specific user | :heavy_check_mark: |
-
----
