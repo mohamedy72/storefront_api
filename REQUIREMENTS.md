@@ -46,7 +46,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 ```sql
 
 products (
-    id SERIAL PRIMARY KEY,
+    product_id SERIAL PRIMARY KEY,
     name VARCHAR(150),
     price integer,
     category VARCHAR(100)
@@ -61,7 +61,7 @@ products (
 ```sql
 
  users (
-    id SERIAL PRIMARY KEY,
+    user_id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     username VARCHAR(150) NOT NULL,
@@ -77,10 +77,10 @@ products (
 ```sql
 
  orders(
-    id SERIAL PRIMARY KEY,
-    product_id integer References products(id),
+    order_id SERIAL PRIMARY KEY,
+    product_key integer References products(id),
     quantity integer,
-    user_id integer References users(id),
+    user_key integer References users(id),
     order_status VARCHAR(50)
  )
 
