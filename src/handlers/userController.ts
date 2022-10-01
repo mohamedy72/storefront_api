@@ -43,28 +43,29 @@ export const indexSingleUser = async (req: Request, res: Response) => {
 };
 
 export const removeSingleUser = async (req: Request, res: Response) => {
-  const userId = +req.params.userId;
-  const result = await deleteSingleUser(userId);
-  if (!result) {
-    res.status(400).json(`Couldn't find a user with this id ${userId}`);
-  } else {
+  try {
+    const userId = +req.params.userId;
+    const result = await deleteSingleUser(userId);
+
     res.status(200).json(`User ${userId} has been deleted from the DB`);
+  } catch (error) {
+    res.status(400).json(`Couldn't find a user with this id, ${error}`);
   }
 };
 
 export const editSingleUser = async (req: Request, res: Response) => {
-  const userId = +req.params.userId;
-  const user: User = {
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    username: req.body.username,
-    password: req.body.password,
-  };
-  const result = await overrideSingleUser(userId, user);
-  if (!result) {
-    res.status(400).json(`Couldn't find a user with this id ${userId}`);
-  } else {
+  try {
+    const userId = +req.params.userId;
+    const user: User = {
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      username: req.body.username,
+      password: req.body.password,
+    };
+    const result = await overrideSingleUser(userId, user);
     res.status(200).json(`User ${userId} has been deleted from the DB`);
+  } catch (error) {
+    res.status(400).json(`Couldn't find a user with this id, ${error}`);
   }
 };
 
