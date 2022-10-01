@@ -39,7 +39,7 @@ export const addNewProduct = async (
 export const getSingleProduct = async (id: number): Promise<Product> => {
   try {
     const connection = await client.connect();
-    const sql = "SELECT * FROM products WHERE id=$1";
+    const sql = "SELECT * FROM products WHERE product_id=$1";
     const result = await connection.query(sql, [id]);
     connection.release();
     return result.rows[0];
@@ -55,7 +55,7 @@ export const overrideSingleProduct = async (
   try {
     const connection = await client.connect();
     const sql =
-      "UPDATE products SET name=$1, price=$2, category=$3 WHERE id=$4";
+      "UPDATE products SET name=$1, price=$2, category=$3 WHERE product_id=$4";
     const result = await connection.query(sql, [
       updatedProduct.name,
       updatedProduct.price,
@@ -72,7 +72,7 @@ export const overrideSingleProduct = async (
 export const deleteSingleProduct = async (id: number): Promise<Product> => {
   try {
     const connection = await client.connect();
-    const sql = "DELETE FROM products WHERE id=$1";
+    const sql = "DELETE FROM products WHERE product_id=$1";
     const result = await connection.query(sql, [id]);
     connection.release();
     return result.rows[0];

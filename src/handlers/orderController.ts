@@ -36,9 +36,9 @@ export const indexSingleOrder = async (req: Request, res: Response) => {
 export const createNewOrder = async (req: Request, res: Response) => {
   try {
     const newOrder = {
-      product_id: req.body.product_id,
+      product_key: req.body.product_key,
       quantity: req.body.quantity,
-      user_id: req.body.user_id,
+      user_key: req.body.user_key,
       order_status: req.body.order_status,
     };
     const result = await addNewOrder(newOrder);

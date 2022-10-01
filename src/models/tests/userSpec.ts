@@ -26,7 +26,7 @@ describe("Testing users endpoints", () => {
 
 describe("All CRUD operations on /users should work as expected", () => {
   const user = {
-    id: 1,
+    user_id: 1,
     first_name: "mohamed",
     last_name: "yasser",
     username: "myasser_74",
@@ -37,7 +37,7 @@ describe("All CRUD operations on /users should work as expected", () => {
     const result = await userSignup(user);
 
     expect(result).toEqual({
-      id: 1,
+      user_id: 1,
       first_name: "mohamed",
       last_name: "yasser",
       username: "myasser_74",
@@ -49,7 +49,7 @@ describe("All CRUD operations on /users should work as expected", () => {
     const result = await getAllUsers();
     expect(result).toEqual([
       {
-        id: 1,
+        user_id: 1,
         first_name: "mohamed",
         last_name: "yasser",
         username: "myasser_74",
@@ -60,7 +60,8 @@ describe("All CRUD operations on /users should work as expected", () => {
 
   afterAll(async () => {
     const connection = await client.connect();
-    const sql = "DELETE FROM users; ALTER SEQUENCE users_id_seq RESTART WITH 1";
+    const sql =
+      "DELETE FROM users; ALTER SEQUENCE users_user_id_seq RESTART WITH 1";
     await connection.query(sql);
     connection.release();
   });

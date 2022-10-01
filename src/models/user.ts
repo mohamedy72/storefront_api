@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 const pepper = process.env.BCRYPT_SECRET;
 const saltRounds = process.env.SALT_ROUNDS;
 export interface User {
-  id?: number;
+  user_id?: number;
   first_name: string;
   last_name: string;
   username: string;
@@ -33,7 +33,7 @@ export const getAllUsers = async () => {
 export const getSingleUser = async (id: number) => {
   try {
     const connection = await client.connect();
-    const sql = "SELECT * FROM users WHERE id=$1";
+    const sql = "SELECT * FROM users WHERE userId=$1";
     const response = await connection.query(sql, [id]);
     connection.release();
     return response.rows[0];
@@ -46,7 +46,7 @@ export const getSingleUser = async (id: number) => {
 export const deleteSingleUser = async (id: number) => {
   try {
     const connection = await client.connect();
-    const sql = "DELETE FROM users WHERE id=$1";
+    const sql = "DELETE FROM users WHERE userId=$1";
     const response = await connection.query(sql, [id]);
     connection.release();
     return response.rows[0];
@@ -60,7 +60,7 @@ export const overrideSingleUser = async (id: number, user: User) => {
   try {
     const connection = await client.connect();
     const sql =
-      "UPDATE users SET first_name=$2, last_name=$3, username=$4, password=$5 WHERE id=$1";
+      "UPDATE users SET first_name=$2, last_name=$3, username=$4, password=$5 WHERE userId=$1";
     const response = await connection.query(sql, [
       id,
       user.first_name,

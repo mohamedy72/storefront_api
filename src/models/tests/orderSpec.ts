@@ -41,6 +41,15 @@ describe("Orders CRUD functionality are working as expected", () => {
     await addNewProduct(product);
   });
 
+  afterAll(async () => {
+    const connection = await client.connect();
+    const sql = `delete from products; alter sequence products_product_id_seq restart with 1; 
+    delete from users; alter sequence users_user_id_seq restart with 1; 
+    delete from orders; alter sequence orders_order_id_seq restart with 1; `;
+    await connection.query(sql);
+    connection.release();
+  });
+
   it("should return list of orders", async () => {
     const response = await getAllOrders();
     expect(response).toEqual([]);
@@ -48,19 +57,19 @@ describe("Orders CRUD functionality are working as expected", () => {
 
   it("should add new order to the list of orders", async () => {
     const newOrder: Order = {
-      product_id: 1,
+      product_key: 1,
       quantity: 10,
-      user_id: 1,
+      user_key: 1,
       order_status: "active",
     };
 
     const response = await addNewOrder(newOrder);
 
     expect(response).toEqual({
-      id: 1,
-      product_id: 1,
+      order_id: 1,
+      product_key: 1,
       quantity: 10,
-      user_id: 1,
+      user_key: 1,
       order_status: "active",
     });
   });
@@ -74,13 +83,5 @@ describe("Orders CRUD functionality are working as expected", () => {
     await deleteSingleOrder(1);
     const result = await getAllOrders();
     expect(result).toEqual([]);
-  });
-
-  afterAll(async () => {
-    const connection = await client.connect();
-    const sql =
-      "delete from products; alter sequence products_id_seq restart with 1; delete from users; alter sequence users_id_seq restart with 1; delete from orders; alter sequence orders_id_seq restart with 1; ";
-    await connection.query(sql);
-    connection.release();
   });
 });

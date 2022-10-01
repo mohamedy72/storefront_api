@@ -2,9 +2,9 @@ import { client } from "../database";
 
 export interface Order {
   id?: number;
-  product_id: number;
+  product_key: number;
   quantity: number;
-  user_id: number;
+  user_key: number;
   order_status: "active" | "completed";
 }
 
@@ -22,7 +22,7 @@ export const getAllOrders = async (): Promise<Order[]> => {
 export const getSingleOrder = async (id: number): Promise<Order> => {
   try {
     const connection = await client.connect();
-    const sql = `SELECT * FROM orders WHERE id=$1;`;
+    const sql = `SELECT * FROM orders WHERE order_id=$1;`;
     const result = await connection.query(sql, [id]);
     connection.release();
     return result.rows[0];
@@ -35,14 +35,13 @@ export const addNewOrder = async (order: Order): Promise<Order | unknown> => {
   try {
     const connection = await client.connect();
     const sql =
-      "insert into orders(product_id, quantity, user_id, order_status ) values ($1, $2, $3, $4) returning *";
+      "insert into orders(product_key, quantity, user_key, order_status ) values ($1, $2, $3, $4) returning *";
     const result = await connection.query(sql, [
-      order.product_id,
+      order.product_key,
       order.quantity,
-      order.user_id,
+      order.user_key,
       order.order_status,
     ]);
-    console.log(result);
     connection.release();
     return result.rows[0];
   } catch (error) {
@@ -53,7 +52,7 @@ export const addNewOrder = async (order: Order): Promise<Order | unknown> => {
 export const deleteSingleOrder = async (id: number) => {
   try {
     const connection = await client.connect();
-    const sql = "DELETE FROM orders WHERE id=$1";
+    const sql = "DELETE FROM orders WHERE order_id=$1";
     const result = await connection.query(sql, [id]);
     connection.release();
     return result.rows[0];

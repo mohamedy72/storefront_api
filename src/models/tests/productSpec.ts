@@ -35,7 +35,7 @@ describe("Products CRUD functionality are working as expected", () => {
       category: "Sports",
     });
     expect(response).toEqual({
-      id: 1,
+      product_id: 1,
       name: "Product test 1",
       price: 1500,
       category: "Sports",
@@ -56,7 +56,7 @@ describe("Products CRUD functionality are working as expected", () => {
   afterAll(async () => {
     const connection = await client.connect();
     const sql =
-      "DELETE FROM products;\n ALTER SEQUENCE products_id_seq RESTART WITH 1;\n";
+      "DELETE FROM products;\n ALTER SEQUENCE products_product_id_seq RESTART WITH 1;\n";
     await connection.query(sql);
     connection.release();
   });
