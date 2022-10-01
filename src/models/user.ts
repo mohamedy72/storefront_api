@@ -17,7 +17,7 @@ export interface User {
  */
 
 // Index all
-export const getAllUsers = async () => {
+export const getAllUsers = async (): Promise<User[] | unknown> => {
   try {
     const connection = await client.connect();
     const sql = "SELECT * FROM users";
@@ -25,12 +25,12 @@ export const getAllUsers = async () => {
     connection.release();
     return response.rows;
   } catch (error) {
-    throw new Error(`Cannot retrieve the list of users, ${error}`);
+    return error;
   }
 };
 
 // Show a user
-export const getSingleUser = async (id: number) => {
+export const getSingleUser = async (id: number): Promise<User | unknown> => {
   try {
     const connection = await client.connect();
     const sql = "SELECT * FROM users WHERE userId=$1";
@@ -38,12 +38,12 @@ export const getSingleUser = async (id: number) => {
     connection.release();
     return response.rows[0];
   } catch (error) {
-    throw new Error(`Cannot retrieve the user with Id: ${id}, ${error}`);
+    return error;
   }
 };
 
 // Delete a user
-export const deleteSingleUser = async (id: number) => {
+export const deleteSingleUser = async (id: number): Promise<User | unknown> => {
   try {
     const connection = await client.connect();
     const sql = "DELETE FROM users WHERE userId=$1";
@@ -51,12 +51,15 @@ export const deleteSingleUser = async (id: number) => {
     connection.release();
     return response.rows[0];
   } catch (error) {
-    throw new Error(`Cannot delete the user with Id: ${id}, ${error}`);
+    return error;
   }
 };
 
 // Update a user
-export const overrideSingleUser = async (id: number, user: User) => {
+export const overrideSingleUser = async (
+  id: number,
+  user: User
+): Promise<User | unknown> => {
   try {
     const connection = await client.connect();
     const sql =
@@ -71,7 +74,7 @@ export const overrideSingleUser = async (id: number, user: User) => {
     connection.release();
     return response.rows[0];
   } catch (error) {
-    throw new Error(`Cannot update the user with Id: ${id}, ${error}`);
+    return error;
   }
 };
 
@@ -83,7 +86,7 @@ export const overrideSingleUser = async (id: number, user: User) => {
 export const userSignup = async (
   user: User,
   next?: NextFunction | undefined
-): Promise<User | void> => {
+): Promise<User | unknown> => {
   try {
     const connection = await client.connect();
     const sql =
@@ -102,7 +105,7 @@ export const userSignup = async (
     connection.release();
     return response.rows[0];
   } catch (error) {
-    throw new Error(`Can't sign you up, ${error}`);
+    return error;
   }
 };
 

@@ -6,7 +6,7 @@ export interface Product {
   category?: string;
 }
 
-export const getAllProducts = async (): Promise<Product[]> => {
+export const getAllProducts = async (): Promise<Product[] | unknown> => {
   try {
     const connection = await client.connect();
     const sql = `SELECT * FROM products;`;
@@ -14,7 +14,7 @@ export const getAllProducts = async (): Promise<Product[]> => {
     connection.release();
     return result.rows;
   } catch (error) {
-    throw new Error(`Cannot get all products, ${error}`);
+    return error;
   }
 };
 export const addNewProduct = async (
@@ -31,12 +31,14 @@ export const addNewProduct = async (
     ]);
     connection.release();
     return result.rows[0];
-  } catch (err) {
-    throw new Error(`Couldn't add new product!. Error happened: ${err}`);
+  } catch (error) {
+    return error;
   }
 };
 
-export const getSingleProduct = async (id: number): Promise<Product> => {
+export const getSingleProduct = async (
+  id: number
+): Promise<Product | unknown> => {
   try {
     const connection = await client.connect();
     const sql = "SELECT * FROM products WHERE product_id=$1";
@@ -44,14 +46,14 @@ export const getSingleProduct = async (id: number): Promise<Product> => {
     connection.release();
     return result.rows[0];
   } catch (error) {
-    throw new Error(`Cannot get the product with id: ${id}, ${error}`);
+    return error;
   }
 };
 
 export const overrideSingleProduct = async (
   updatedProduct: Product,
   id: number
-): Promise<Product> => {
+): Promise<Product | unknown> => {
   try {
     const connection = await client.connect();
     const sql =
@@ -65,11 +67,13 @@ export const overrideSingleProduct = async (
     connection.release();
     return result.rows[0];
   } catch (error) {
-    throw new Error(`Cannot get the product with id: ${id}, ${error}`);
+    return error;
   }
 };
 
-export const deleteSingleProduct = async (id: number): Promise<Product> => {
+export const deleteSingleProduct = async (
+  id: number
+): Promise<Product | unknown> => {
   try {
     const connection = await client.connect();
     const sql = "DELETE FROM products WHERE product_id=$1";
@@ -77,6 +81,6 @@ export const deleteSingleProduct = async (id: number): Promise<Product> => {
     connection.release();
     return result.rows[0];
   } catch (error) {
-    throw new Error(`Cannot delete the product with id: ${id}, ${error}`);
+    return error;
   }
 };

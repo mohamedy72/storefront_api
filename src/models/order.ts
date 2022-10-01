@@ -8,7 +8,7 @@ export interface Order {
   order_status: "active" | "completed";
 }
 
-export const getAllOrders = async (): Promise<Order[]> => {
+export const getAllOrders = async (): Promise<Order[] | unknown> => {
   try {
     const connection = await client.connect();
     const sql = `SELECT * FROM orders;`;
@@ -16,10 +16,10 @@ export const getAllOrders = async (): Promise<Order[]> => {
     connection.release();
     return result.rows;
   } catch (error) {
-    throw new Error(`Cannot get all orders, ${error}`);
+    return error;
   }
 };
-export const getSingleOrder = async (id: number): Promise<Order> => {
+export const getSingleOrder = async (id: number): Promise<Order | unknown> => {
   try {
     const connection = await client.connect();
     const sql = `SELECT * FROM orders WHERE order_id=$1;`;
@@ -27,7 +27,7 @@ export const getSingleOrder = async (id: number): Promise<Order> => {
     connection.release();
     return result.rows[0];
   } catch (error) {
-    throw new Error(`Cannot get an order with id ${id}, ${error}`);
+    return error;
   }
 };
 
@@ -49,7 +49,9 @@ export const addNewOrder = async (order: Order): Promise<Order | unknown> => {
   }
 };
 
-export const deleteSingleOrder = async (id: number) => {
+export const deleteSingleOrder = async (
+  id: number
+): Promise<Order | unknown> => {
   try {
     const connection = await client.connect();
     const sql = "DELETE FROM orders WHERE order_id=$1";
