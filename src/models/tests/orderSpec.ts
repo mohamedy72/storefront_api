@@ -4,6 +4,7 @@ import {
   deleteSingleOrder,
   getAllOrders,
   getSingleOrder,
+  Order,
 } from "../order";
 import { addNewProduct, Product } from "../product";
 import { User, userSignup } from "../user";
@@ -46,11 +47,21 @@ describe("Orders CRUD functionality are working as expected", () => {
   });
 
   it("should add new order to the list of orders", async () => {
-    const response = await addNewOrder("active", 1);
+    const newOrder: Order = {
+      product_id: 1,
+      quantity: 10,
+      user_id: 1,
+      order_status: "active",
+    };
+
+    const response = await addNewOrder(newOrder);
+
     expect(response).toEqual({
       id: 1,
-      status: "active",
+      product_id: 1,
+      quantity: 10,
       user_id: 1,
+      order_status: "active",
     });
   });
 

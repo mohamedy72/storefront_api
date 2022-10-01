@@ -62,3 +62,9 @@ To be able to connect to the database, please refer to the submission notes for 
 6- Run `yarn migration:up` script to create required tables.
 
 7- Our database is ready to accept our CRUD operations.
+
+---
+
+---
+
+Please refer to [REQUIREMENTS](REQUIREMENTS.md) for more information about the database

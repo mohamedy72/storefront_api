@@ -7,7 +7,7 @@ import {
   deleteSingleProduct,
 } from "../product";
 
-describe("Should include all CRUD methods", () => {
+describe("Products include all/most CRUD methods", () => {
   it("should include CREATE method", () => {
     expect(addNewProduct).toBeDefined();
   });
@@ -22,7 +22,7 @@ describe("Should include all CRUD methods", () => {
   });
 });
 
-describe("ALL CRUD functionality are working as expected", () => {
+describe("Products CRUD functionality are working as expected", () => {
   it("should return list of products", async () => {
     const response = await getAllProducts();
     expect(response).toEqual([]);
