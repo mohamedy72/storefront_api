@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import {
   getAllOrders,
   getSingleOrder,
-  addPorductToOrder,
   addNewOrder,
   Order,
 } from "../models/order";
@@ -49,23 +48,6 @@ export const createNewOrder = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       data: `Can't add new order, ${error}`,
-    });
-  }
-};
-
-export const insertPorductInOrder = async (req: Request, res: Response) => {
-  try {
-    const orderId = +req.params.orderId;
-    const quantity: number = req.body.quantity;
-    const productId: number = req.body.productId;
-
-    const result = await addPorductToOrder(orderId, quantity, productId);
-    res.status(200).json({
-      data: result,
-    });
-  } catch (error) {
-    res.status(400).json({
-      data: `Cannot retrieve add a product to this order, ${error}`,
     });
   }
 };

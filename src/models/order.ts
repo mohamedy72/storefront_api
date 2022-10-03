@@ -62,22 +62,3 @@ export const deleteSingleOrder = async (
     return error;
   }
 };
-
-// Add new product to an order
-export const addPorductToOrder = async (
-  orderId: number,
-  quantity: number,
-  productId: number
-): Promise<Order | unknown> => {
-  try {
-    const connection = await client.connect();
-    const sql =
-      "insert into order_products (quantity, order_id, product_id) values ($1,$2,$3) RETURNING *";
-    const result = await connection.query(sql, [quantity, orderId, productId]);
-    const order = result.rows[0];
-    connection.release();
-    return order;
-  } catch (error) {
-    return error;
-  }
-};
