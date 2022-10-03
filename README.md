@@ -10,6 +10,7 @@ Storefront API is created for a fictional e-commerce organization, its used to s
 - [Setup](#setup)
 - [Available Scripts](#scripts)
 - [Connect to database](#connect)
+- [Important notes](#notes)
 
 ---
 
@@ -65,11 +66,13 @@ To be able to connect to the database, please refer to the submission notes for 
 
 ---
 
-## Important notes 🏴
+## notes 🏴
 
 1. You have to create 2 databases, one for development and another for testing.
 
-2. While testing, make sure you have a user in users table and a product in products table so order tests run
+2. While testing, to be able to run tests on `orders` and `order_products` make sure you have:
+   - a user in `users` table
+   - a product in `products` table
 
 ---
 
