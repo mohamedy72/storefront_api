@@ -65,6 +65,12 @@ To be able to connect to the database, please refer to the submission notes for 
 
 ---
 
+## Important notes 🏴
+
+1. You have to create 2 databases, one for development and another for testing.
+
+2. While testing, make sure you have a user in users table and a product in products table so order tests run
+
 ---
 
 Please refer to [REQUIREMENTS](REQUIREMENTS.md) for more information about the database

@@ -85,3 +85,19 @@ products (
  )
 
 ```
+
+---
+
+### Order_Products
+
+```sql
+ order_products(
+    orderProducts_id SERIAL PRIMARY KEY,
+    quantity INTEGER,
+    proudct_Key INTEGER REFERENCES products(product_id),
+    order_Key INTEGER REFERENCES products(order_id)
+   )
+
+```
+
+---
