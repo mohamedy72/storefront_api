@@ -33,7 +33,7 @@ export const getAllUsers = async (): Promise<User[] | unknown> => {
 export const getSingleUser = async (id: number): Promise<User | unknown> => {
   try {
     const connection = await client.connect();
-    const sql = "SELECT * FROM users WHERE userId=$1";
+    const sql = "SELECT * FROM users WHERE user_id=$1";
     const response = await connection.query(sql, [id]);
     connection.release();
     return response.rows[0];
@@ -113,7 +113,7 @@ export const userSignup = async (
 export const userSignin = async (
   username: string,
   password: string,
-  next: NextFunction
+  next?: NextFunction
 ): Promise<User | null> => {
   const connection = await client.connect();
   const sql = "SELECT password FROM users WHERE username=$1";

@@ -11,8 +11,7 @@ import {
 } from "../handlers/orderProductsController";
 
 const ordersRouter = express.Router();
-ordersRouter.route("/").get(indexAllOrders);
-ordersRouter.route("/").post(createNewOrder);
+ordersRouter.route("/").get(indexAllOrders).post(createNewOrder);
 ordersRouter.route("/:orderId").get(indexSingleOrder);
 
 ordersRouter

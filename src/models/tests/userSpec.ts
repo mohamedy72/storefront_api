@@ -9,7 +9,7 @@ import {
   userSignup,
 } from "../user";
 
-describe("Testing users endpoints", () => {
+describe("Products include all/most CRUD methods", () => {
   it("should include CREATE method", () => {
     expect(userSignup).toBeDefined();
   });
@@ -56,6 +56,17 @@ describe("All CRUD operations on /users should work as expected", () => {
         password: "as123",
       },
     ]);
+  });
+
+  it("should returns a single user", async () => {
+    const result = await getSingleUser(1);
+    expect(result).toEqual({
+      user_id: 1,
+      first_name: "mohamed",
+      last_name: "yasser",
+      username: "myasser_74",
+      password: "as123",
+    });
   });
 
   afterAll(async () => {
